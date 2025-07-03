@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raid Shadow Legends Relic Crafting Optimizer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .input-section, .preferences-section, .results-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            color: #ffd700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .material-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .material-group {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .group-name {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            color: #87ceeb;
+        }
+
+        .material-inputs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            font-size: 0.9em;
+            margin-bottom: 5px;
+            opacity: 0.9;
+        }
+
+        .mythical { color: #ff6b6b; }
+        .legendary { color: #ffd700; }
+        .epic { color: #da70d6; }
+        .rare { color: #87ceeb; }
+
+        input[type="number"] {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 10px;
+            color: #ffffff;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .preferences-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .preference-group {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .preference-group h4 {
+            margin-bottom: 10px;
+            color: #87ceeb;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #ffd700;
+        }
+
+        .calculate-btn {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #1e3c72;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 0 auto;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .result-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .craft-name {
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ffd700;
+        }
+
+        .craft-details {
+            margin-bottom: 15px;
+        }
+
+        .craft-ev {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #90ee90;
+            text-align: center;
+            background: rgba(144, 238, 144, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .summary {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .summary h3 {
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .priority-badge {
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: bold;
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        .priority-high { background: #ff6b6b; color: white; }
+        .priority-medium { background: #ffd700; color: #1e3c72; }
+        .priority-low { background: #87ceeb; color: white; }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .material-inputs {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛡️ Raid Shadow Legends Relic Crafting Optimizer</h1>
+        <p class="subtitle">Calculate the optimal crafting strategy for your relic materials</p>
+
+        <div class="input-section">
+            <h2 class="section-title">📦 Your Relic Materials</h2>
+            <div class="material-grid">
+                <div class="material-group">
+                    <div class="group-name">🔥 Chimera</div>
+                    <div class="material-inputs">
+                        <div class="input-group">
+                            <label class="mythical">Mythical</label>
+                            <input type="number" id="chimera-mythical" value="0" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label class="legendary">Legendary</label>
+                            <input type="number" id="chimera-legendary" value="0" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label class="epic">Epic</label>
+                            <input type="number" id="chimera-epic" value="0" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label class="rare">Rare</label>
+                            <input type="number" id="chimera-rare" value="0" min="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="material-group">
+                    <div class="group-name">🛡️ Clan</div>
+                    <div class="material-inputs">
+                        <div class="input-group">
+                            <label class="mythical">Mythical</label>
+                            <input type="number" id="clan-mythical" value="0" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label class="legendary">Legendary</label>
+                            <input type="number" id="clan-legendary" value="0" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label class="epic">Epic</label>
+                            <input type="number" id="clan-epic" value="0" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label class="rare">Rare</label>
+                            <input type="number" id="clan-rare" value="0" min="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="material-group">
+                    <div class="group-name">🎯 Live Arena</div>
+                    <div class="material-inputs">
+                        <div class="input-group">
+                            <label class="mythical">Mythical</label>
+                            <input type="number" id="liveArena-mythical" value="0" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label class="legendary">Legendary</label>
+                            <input type="number" id="liveArena-legendary" value="0" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label class="epic">Epic</label>
+                            <input type="number" id="liveArena-epic" value="0" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label class="rare">Rare</label>
+                            <input type="number" id="liveArena-rare" value="0" min="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="material-group">
+                    <div class="group-name">⚔️ Faction Wars</div>
+                    <div class="material-inputs">
+                        <div class="input-group">
+                            <label class="mythical">Mythical</label>
+                            <input type="number" id="factionWars-mythical" value="0" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label class="legendary">Legendary</label>
+                            <input type="number" id="factionWars-legendary" value="0" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label class="epic">Epic</label>
+                            <input type="number" id="factionWars-epic" value="0" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label class="rare">Rare</label>
+                            <input type="number" id="factionWars-rare" value="0" min="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="material-group">
+                    <div class="group-name">🏆 Event</div>
+                    <div class="material-inputs">
+                        <div class="input-group">
+                            <label class="mythical">Mythical</label>
+                            <input type="number" id="event-mythical" value="0" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label class="legendary">Legendary</label>
+                            <input type="number" id="event-legendary" value="0" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label class="epic">Epic</label>
+                            <input type="number" id="event-epic" value="0" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label class="rare">Rare</label>
+                            <input type="number" id="event-rare" value="0" min="0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="preferences-section">
+            <h2 class="section-title">🎯 What Relics Do You Want?</h2>
+            <div class="preferences-grid">
+                <div class="preference-group">
+                    <h4>🔥 Chimera Relics</h4>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="want-chimera-mythical">
+                            <label>Mythical Chimera</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="want-chimera-legendary">
+                            <label>Legendary Chimera</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="want-chimera-epic">
+                            <label>Epic Chimera</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="want-chimera-rare">
+                            <label>Rare Chimera</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="preference-group">
+                    <h4>🛡️ Clan Relics</h4>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="want-clan-mythical">
+                            <label>Mythical Clan</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="want-clan-legendary">
+                            <label>Legendary Clan</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="want-clan-epic">
+                            <label>Epic Clan</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="want-clan-rare">
+                            <label>Rare Clan</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="preference-group">
+                    <h4>🎯 Live Arena Relics</h4>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="want-liveArena-mythical">
+                            <label>Mythical Live Arena</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="want-liveArena-legendary">
+                            <label>Legendary Live Arena</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="want-liveArena-epic">
+                            <label>Epic Live Arena</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="want-liveArena-rare">
+                            <label>Rare Live Arena</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="preference-group">
+                    <h4>⚔️ Faction Wars Relics</h4>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="want-factionWars-mythical">
+                            <label>Mythical Faction Wars</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="want-factionWars-legendary">
+                            <label>Legendary Faction Wars</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="want-factionWars-epic">
+                            <label>Epic Faction Wars</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="want-factionWars-rare">
+                            <label>Rare Faction Wars</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="preference-group">
+                    <h4>🏆 Event Relics</h4>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="want-event-mythical">
+                            <label>Mythical Event</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="want-event-legendary">
+                            <label>Legendary Event</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="want-event-epic">
+                            <label>Epic Event</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="want-event-rare">
+                            <label>Rare Event</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="preference-group">
+                    <h4>⭐ Standard Relics</h4>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="want-standard-mythical">
+                            <label>Mythical Standard</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="want-standard-legendary">
+                            <label>Legendary Standard</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="want-standard-epic">
+                            <label>Epic Standard</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="want-standard-rare">
+                            <label>Rare Standard</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="calculate-btn" onclick="calculateOptimal()">✨ Calculate Optimal Strategy</button>
+
+        <div class="results-section hidden" id="results">
+            <h2 class="section-title">📊 Optimal Crafting Strategy</h2>
+            <div class="summary" id="summary"></div>
+            <div class="results-grid" id="resultsGrid"></div>
+        </div>
+    </div>
+
+    <script>
+        // Rarity probability tables
+        const rarityTables = {
+            '4M': {mythical: 0.20, legendary: 0.80, epic: 0, rare: 0},
+            '3M1L': {mythical: 0.135, legendary: 0.665, epic: 0.20, rare: 0},
+            '2M2L': {mythical: 0.083, legendary: 0.557, epic: 0.36, rare: 0},
+            '1M3L': {mythical: 0.0405, legendary: 0.4686, epic: 0.4909, rare: 0},
+            '4L': {mythical: 0.005, legendary: 0.395, epic: 0.60, rare: 0},
+            '3L1E': {mythical: 0.0037, legendary: 0.2896, epic: 0.5286, rare: 0.1781},
+            '2L2E': {mythical: 0.0025, legendary: 0.1966, epic: 0.4656, rare: 0.3353},
+            '1L3E': {mythical: 0.0014, legendary: 0.114, epic: 0.4096, rare: 0.475},
+            '3M1E': {mythical: 0.125, legendary: 0.5053, epic: 0.1394, rare: 0.2327},
+            '2M2E': {mythical: 0.0693, legendary: 0.3021, epic: 0.2355, rare: 0.3931},
+            '1M3E': {mythical: 0.0303, legendary: 0.1534, epic: 0.3058, rare: 0.5104},
+            '4E': {mythical: 0.0005, legendary: 0.04, epic: 0.3595, rare: 0.60},
+            '4R': {mythical: 0.0001, legendary: 0.005, epic: 0.155, rare: 0.8399}
+        };
+
+        // Available relics per group/rarity
+        const availableRelics = {
+            standard: {mythical: 2, legendary: 2, epic: 3, rare: 4},
+            chimera: {mythical: 2, legendary: 2, epic: 3, rare: 4},
+            event: {mythical: 2, legendary: 2, epic: 2, rare: 2},
+            clan: {mythical: 2, legendary: 2, epic: 2, rare: 2},
+            liveArena: {mythical: 2, legendary: 2, epic: 2, rare: 2},
+            factionWars: {mythical: 2, legendary: 2, epic: 2, rare: 2}
+        };
+
+        function getMaterials() {
+            const materials = {};
+            const groups = ['chimera', 'factionWars', 'liveArena', 'event', 'clan'];
+            
+            groups.forEach(group => {
+                materials[group] = {
+                    mythical: parseInt(document.getElementById(`${group}-mythical`).value) || 0,
+                    legendary: parseInt(document.getElementById(`${group}-legendary`).value) || 0,
+                    epic: parseInt(document.getElementById(`${group}-epic`).value) || 0,
+                    rare: parseInt(document.getElementById(`${group}-rare`).value) || 0
+                };
+            });
+            
+            return materials;
+        }
+
+        function getPreferences() {
+            const preferences = {};
+            const groups = ['chimera', 'factionWars', 'liveArena', 'event', 'clan', 'standard'];
+            const rarities = ['mythical', 'legendary', 'epic', 'rare'];
+            
+            groups.forEach(group => {
+                preferences[group] = {};
+                rarities.forEach(rarity => {
+                    const checkbox = document.getElementById(`want-${group}-${rarity}`);
+                    preferences[group][rarity] = checkbox ? checkbox.checked : false;
+                });
+            });
+            
+            return preferences;
+        }
+
+        function calculateExpectedValue(materialAllocation, rarityKey, preferences) {
+            const groupProbs = {};
+            let standardProb = 0.5;
+            
+            // Calculate group probabilities
+            Object.entries(materialAllocation).forEach(([group, amount]) => {
+                if (amount > 0) {
+                    const groupChance = (amount / 25) * 0.125;
+                    groupProbs[group] = groupChance;
+                    standardProb -= groupChance;
+                }
+            });
+            groupProbs.standard = Math.max(0, standardProb);
+            
+            // Get rarity probabilities
+            const rarityProbs = rarityTables[rarityKey];
+            if (!rarityProbs) return 0;
+            
+            // Calculate expected value
+            let totalExpectedValue = 0;
+            
+            Object.entries(groupProbs).forEach(([group, groupProb]) => {
+                Object.entries(rarityProbs).forEach(([rarity, rarityProb]) => {
+                    const isWanted = preferences[group] && preferences[group][rarity];
+                    const availableCount = availableRelics[group] && availableRelics[group][rarity] || 0;
+                    const successRate = isWanted && availableCount > 0 ? (1 / availableCount) : 0;
+                    const expectedValue = groupProb * rarityProb * successRate;
+                    totalExpectedValue += expectedValue;
+                });
+            });
+            
+            return totalExpectedValue;
+        }
+
+        function canCraft(materials, group, mythical = 0, legendary = 0, epic = 0, rare = 0) {
+            return materials[group] && 
+                   materials[group].mythical >= mythical && 
+                   materials[group].legendary >= legendary && 
+                   materials[group].epic >= epic && 
+                   materials[group].rare >= rare;
+        }
+
+        function generateCraftingStrategies(materials, preferences) {
+            const strategies = [];
+            
+            // Generate all possible crafting strategies
+            const groups = ['chimera', 'factionWars', 'liveArena', 'event', 'clan'];
+            
+            groups.forEach(group => {
+                const groupMaterials = materials[group];
+                if (!groupMaterials) return;
+                
+                // Pure crafts
+                if (canCraft(materials, group, 100, 0, 0, 0)) {
+                    strategies.push({
+                        name: `${group} Pure Mythical`,
+                        group: group,
+                        materials: {mythical: 100, legendary: 0, epic: 0, rare: 0},
+                        rarity: '4M',
+                        ev: calculateExpectedValue({[group]: 100}, '4M', preferences)
+                    });
+                }
+                
+                if (canCraft(materials, group, 0, 100, 0, 0)) {
+                    strategies.push({
+                        name: `${group} Pure Legendary`,
+                        group: group,
+                        materials: {mythical: 0, legendary: 100, epic: 0, rare: 0},
+                        rarity: '4L',
+                        ev: calculateExpectedValue({[group]: 100}, '4L', preferences)
+                    });
+                }
+                
+                if (canCraft(materials, group, 0, 0, 100, 0)) {
+                    strategies.push({
+                        name: `${group} Pure Epic`,
+                        group: group,
+                        materials: {mythical: 0, legendary: 0, epic: 100, rare: 0},
+                        rarity: '4E',
+                        ev: calculateExpectedValue({[group]: 100}, '4E', preferences)
+                    });
+                }
+                
+                if (canCraft(materials, group, 0, 0, 0, 100)) {
+                    strategies.push({
+                        name: `${group} Pure Rare`,
+                        group: group,
+                        materials: {mythical: 0, legendary: 0, epic: 0, rare: 100},
+                        rarity: '4R',
+                        ev: calculateExpectedValue({[group]: 100}, '4R', preferences)
+                    });
+                }
+                
+                // Mixed crafts
+                if (canCraft(materials, group, 50, 50, 0, 0)) {
+                    strategies.push({
+                        name: `${group} Mixed (2M2L)`,
+                        group: group,
+                        materials: {mythical: 50, legendary: 50, epic: 0, rare: 0},
+                        rarity: '2M2L',
+                        ev: calculateExpectedValue({[group]: 100}, '2M2L', preferences)
+                    });
+                }
+                
+                if (canCraft(materials, group, 0, 75, 25, 0)) {
+                    strategies.push({
+                        name: `${group} Epic Focus (3L1E)`,
+                        group: group,
+                        materials: {mythical: 0, legendary: 75, epic: 25, rare: 0},
+                        rarity: '3L1E',
+                        ev: calculateExpectedValue({[group]: 100}, '3L1E', preferences)
+                    });
+                }
+                
+                if (canCraft(materials, group, 0, 50, 50, 0)) {
+                    strategies.push({
+                        name: `${group} Epic Heavy (2L2E)`,
+                        group: group,
+                        materials: {mythical: 0, legendary: 50, epic: 50, rare: 0},
+                        rarity: '2L2E',
+                        ev: calculateExpectedValue({[group]: 100}, '2L2E', preferences)
+                    });
+                }
+            });
+            
+            // Sort by expected value
+            strategies.sort((a, b) => b.ev - a.ev);
+            
+            return strategies.filter(s => s.ev > 0);
+        }
+
+        function calculateOptimal() {
+            const materials = getMaterials();
+            const preferences = getPreferences();
+            
+            // Check if any preferences are selected
+            const hasPreferences = Object.values(preferences).some(group => 
+                Object.values(group).some(rarity => rarity === true)
+            );
+            
+            if (!hasPreferences) {
+                alert('Please select at least one relic type that you want!');
+                return;
+            }
+            
+            // Check if any materials are entered
+            const totalMaterials = Object.values(materials).reduce((sum, group) => {
+                return sum + Object.values(group).reduce((groupSum, amount) => groupSum + amount, 0);
+            }, 0);
+            
+            if (totalMaterials === 0) {
+                alert('Please enter your material amounts!');
+                return;
+            }
+            
+            // Generate strategies
+            const strategies = generateCraftingStrategies(materials, preferences);
+            
+            if (strategies.length === 0) {
+                alert('No viable crafting strategies found with your current materials and preferences!');
+                return;
+            }
+            
+            // Display results
+            displayResults(strategies, materials, preferences);
+        }
+
+        function displayResults(strategies, materials, preferences) {
+            const resultsSection = document.getElementById('results');
+            const summaryDiv = document.getElementById('summary');
+            const resultsGrid = document.getElementById('resultsGrid');
+            
+            // Show results section
+            resultsSection.classList.remove('hidden');
+            
+            // Calculate total materials
+            const totalMaterials = Object.values(materials).reduce((sum, group) => {
+                return sum + Object.values(group).reduce((groupSum, amount) => groupSum + amount, 0);
+            }, 0);
+            
+            const totalCrafts = Math.floor(totalMaterials / 100);
+            const totalExpectedValue = strategies.slice(0, 10).reduce((sum, strategy) => sum + strategy.ev, 0);
+            
+            // Create summary
+            summaryDiv.innerHTML = `
+                <h3>📊 Strategy Summary</h3>
+                <p><strong>Total Materials:</strong> ${totalMaterials.toLocaleString()}</p>
+                <p><strong>Total Possible Crafts:</strong> ${totalCrafts}</p>
+                <p><strong>Top 10 Strategies Expected Value:</strong> ${(totalExpectedValue * 100).toFixed(2)}%</p>
+                <p><strong>Total Estimated Wanted Relics:</strong> ${totalExpectedValue.toFixed(2)} from top strategies</p>
+            `;
+            
+            // Create result cards
+            resultsGrid.innerHTML = '';
+            
+            strategies.slice(0, 15).forEach((strategy, index) => {
+                const priorityClass = index < 3 ? 'priority-high' : index < 8 ? 'priority-medium' : 'priority-low';
+                const priorityText = index < 3 ? 'HIGH' : index < 8 ? 'MEDIUM' : 'LOW';
+                
+                const materialsList = Object.entries(strategy.materials)
+                    .filter(([rarity, amount]) => amount > 0)
+                    .map(([rarity, amount]) => `${amount} ${rarity}`)
+                    .join(' + ');
+                
+                const card = document.createElement('div');
+                card.className = 'result-card';
+                card.innerHTML = `
+                    <div class="craft-name">
+                        ${strategy.name}
+                        <span class="priority-badge ${priorityClass}">PRIORITY ${priorityText}</span>
+                    </div>
+                    <div class="craft-details">
+                        <strong>Materials:</strong> ${materialsList}<br>
+                        <strong>Rarity Pattern:</strong> ${strategy.rarity}<br>
+                        <strong>Group:</strong> ${strategy.group.charAt(0).toUpperCase() + strategy.group.slice(1)}
+                    </div>
+                    <div class="craft-ev">
+                        ${(strategy.ev * 100).toFixed(2)}% Expected Value
+                    </div>
+                `;
+                
+                resultsGrid.appendChild(card);
+            });
+        }
+
+        // Example data button for testing
+        function loadExampleData() {
+            document.getElementById('chimera-mythical').value = 65;
+            document.getElementById('chimera-legendary').value = 139;
+            document.getElementById('chimera-epic').value = 407;
+            document.getElementById('chimera-rare').value = 684;
+            
+            document.getElementById('factionWars-mythical').value = 59;
+            document.getElementById('factionWars-legendary').value = 274;
+            document.getElementById('factionWars-epic').value = 230;
+            document.getElementById('factionWars-rare').value = 361;
+            
+            document.getElementById('event-mythical').value = 100;
+            document.getElementById('event-legendary').value = 375;
+            document.getElementById('event-epic').value = 825;
+            document.getElementById('event-rare').value = 450;
+            
+            document.getElementById('liveArena-mythical').value = 100;
+            document.getElementById('liveArena-legendary').value = 100;
+            document.getElementById('liveArena-epic').value = 100;
+            document.getElementById('liveArena-rare').value = 150;
+            
+            document.getElementById('clan-legendary').value = 350;
+            document.getElementById('clan-epic').value = 400;
+            document.getElementById('clan-rare').value = 100;
+            
+            // Set some example preferences
+            document.getElementById('want-chimera-mythical').checked = true;
+            document.getElementById('want-chimera-epic').checked = true;
+            document.getElementById('want-chimera-rare').checked = true;
+            document.getElementById('want-factionWars-epic').checked = true;
+            document.getElementById('want-factionWars-rare').checked = true;
+            document.getElementById('want-event-mythical').checked = true;
+            document.getElementById('want-event-legendary').checked = true;
+            document.getElementById('want-clan-legendary').checked = true;
+            document.getElementById('want-liveArena-mythical').checked = true;
+            document.getElementById('want-standard-mythical').checked = true;
+            document.getElementById('want-standard-legendary').checked = true;
+            document.getElementById('want-standard-rare').checked = true;
+        }
+    </script>
+    
+    <div style="text-align: center; margin-top: 20px;">
+        <button onclick="loadExampleData()" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 10px 20px; border-radius: 10px; cursor: pointer;">
+            📝 Load Example Data
+        </button>
+    </div>
+</body>
+</html>
