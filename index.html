@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
             color: #ffffff;
             min-height: 100vh;
             padding: 20px;
@@ -149,13 +149,18 @@
         .checkbox-group {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
         }
 
         .checkbox-item {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+        }
+
+        .checkbox-item label {
+            font-size: 0.85em;
+            cursor: pointer;
         }
 
         input[type="checkbox"] {
@@ -256,15 +261,54 @@
 
         @media (max-width: 768px) {
             .container {
-                padding: 20px;
+                padding: 15px;
+            }
+
+            .material-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
             }
 
             .material-inputs {
                 grid-template-columns: 1fr;
             }
 
+            .preferences-grid {
+                grid-template-columns: 1fr;
+            }
+
             h1 {
-                font-size: 2em;
+                font-size: 1.8em;
+            }
+
+            .subtitle {
+                font-size: 1em;
+            }
+
+            .section-title {
+                font-size: 1.2em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .material-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .material-inputs {
+                grid-template-columns: 1fr;
+            }
+
+            .input-group {
+                margin-bottom: 10px;
+            }
+
+            .preference-group {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 10px;
             }
         }
     </style>
