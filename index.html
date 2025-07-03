@@ -890,31 +890,83 @@
             // Show results section
             resultsSection.classList.remove('hidden');
             
-            // Calculate total materials
+            // Calculate total materials and create execution plan
             const totalMaterials = Object.values(materials).reduce((sum, group) => {
                 return sum + Object.values(group).reduce((groupSum, amount) => groupSum + amount, 0);
             }, 0);
             
             const totalCrafts = Math.floor(totalMaterials / 100);
-            const totalExpectedValue = strategies.slice(0, 10).reduce((sum, strategy) => sum + strategy.ev, 0);
+            
+            // Create optimal execution plan
+            const executionPlan = [];
+            const remainingMaterials = JSON.parse(JSON.stringify(materials)); // Deep copy
+            
+            // Function to check if we can do a craft
+            function canDoCraft(group, mythical = 0, legendary = 0, epic = 0, rare = 0) {
+                return remainingMaterials[group] && 
+                       remainingMaterials[group].mythical >= mythical && 
+                       remainingMaterials[group].legendary >= legendary && 
+                       remainingMaterials[group].epic >= epic && 
+                       remainingMaterials[group].rare >= rare;
+            }
+            
+            // Function to use materials
+            function useMaterials(group, mythical = 0, legendary = 0, epic = 0, rare = 0) {
+                remainingMaterials[group].mythical -= mythical;
+                remainingMaterials[group].legendary -= legendary;
+                remainingMaterials[group].epic -= epic;
+                remainingMaterials[group].rare -= rare;
+            }
+            
+            // Add crafts to execution plan in priority order
+            strategies.forEach(strategy => {
+                const {group, materials: matReq} = strategy;
+                const {mythical = 0, legendary = 0, epic = 0, rare = 0} = matReq;
+                
+                // Keep adding this craft type while we can
+                while (canDoCraft(group, mythical, legendary, epic, rare)) {
+                    executionPlan.push({
+                        ...strategy,
+                        craftNumber: executionPlan.length + 1
+                    });
+                    useMaterials(group, mythical, legendary, epic, rare);
+                }
+            });
+            
+            // Calculate total expected value from actual execution plan
+            const totalExpectedValue = executionPlan.reduce((sum, craft) => sum + craft.ev, 0);
             
             // Create summary
             summaryDiv.innerHTML = `
-                <h3>📊 Strategy Summary</h3>
+                <h3>📊 Optimal Execution Plan</h3>
                 <p><strong>Total Materials:</strong> ${totalMaterials.toLocaleString()}</p>
-                <p><strong>Total Possible Crafts:</strong> ${totalCrafts}</p>
-                <p><strong>Top 10 Strategies Expected Value:</strong> ${(totalExpectedValue * 100).toFixed(2)}%</p>
-                <p><strong>Total Estimated Wanted Relics:</strong> ${totalExpectedValue.toFixed(2)} from top strategies</p>
+                <p><strong>Total Crafts Planned:</strong> ${executionPlan.length}</p>
+                <p><strong>Materials Used:</strong> ${(executionPlan.length * 100).toLocaleString()} / ${totalMaterials.toLocaleString()} (${((executionPlan.length * 100 / totalMaterials) * 100).toFixed(1)}%)</p>
+                <p><strong>Total Estimated Wanted Relics:</strong> ${totalExpectedValue.toFixed(2)} from all ${executionPlan.length} crafts</p>
             `;
+            
+            // Group execution plan by strategy type
+            const groupedPlan = {};
+            executionPlan.forEach(craft => {
+                if (!groupedPlan[craft.name]) {
+                    groupedPlan[craft.name] = {
+                        ...craft,
+                        count: 0,
+                        totalEV: 0
+                    };
+                }
+                groupedPlan[craft.name].count++;
+                groupedPlan[craft.name].totalEV += craft.ev;
+            });
             
             // Create result cards
             resultsGrid.innerHTML = '';
             
-            strategies.slice(0, 15).forEach((strategy, index) => {
+            Object.values(groupedPlan).forEach((step, index) => {
                 const priorityClass = index < 3 ? 'priority-high' : index < 8 ? 'priority-medium' : 'priority-low';
                 const priorityText = index < 3 ? 'HIGH' : index < 8 ? 'MEDIUM' : 'LOW';
                 
-                const materialsList = Object.entries(strategy.materials)
+                const materialsList = Object.entries(step.materials)
                     .filter(([rarity, amount]) => amount > 0)
                     .map(([rarity, amount]) => `${amount} ${rarity}`)
                     .join(' + ');
@@ -923,16 +975,17 @@
                 card.className = 'result-card';
                 card.innerHTML = `
                     <div class="craft-name">
-                        ${strategy.name}
+                        Step ${index + 1}: ${step.name}
                         <span class="priority-badge ${priorityClass}">PRIORITY ${priorityText}</span>
                     </div>
                     <div class="craft-details">
-                        <strong>Materials:</strong> ${materialsList}<br>
-                        <strong>Rarity Pattern:</strong> ${strategy.rarity}<br>
-                        <strong>Group:</strong> ${strategy.group.charAt(0).toUpperCase() + strategy.group.slice(1)}
+                        <strong>Materials per craft:</strong> ${materialsList}<br>
+                        <strong>Number of crafts:</strong> ${step.count}x<br>
+                        <strong>Total materials used:</strong> ${step.count * 100}<br>
+                        <strong>Group:</strong> ${step.group.charAt(0).toUpperCase() + step.group.slice(1)}
                     </div>
                     <div class="craft-ev">
-                        ${(strategy.ev * 100).toFixed(2)}% Expected Value
+                        ${(step.totalEV).toFixed(2)} Total Expected Wanted Relics
                     </div>
                 `;
                 
