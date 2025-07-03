@@ -66,28 +66,29 @@
 
         .material-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
         }
 
         .material-group {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 10px;
-            padding: 20px;
+            padding: 15px;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .group-name {
             font-weight: bold;
-            font-size: 1.1em;
-            margin-bottom: 15px;
+            font-size: 1.0em;
+            margin-bottom: 12px;
             color: #87ceeb;
+            text-align: center;
         }
 
         .material-inputs {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            gap: 8px;
         }
 
         .input-group {
@@ -96,9 +97,10 @@
         }
 
         .input-group label {
-            font-size: 0.9em;
-            margin-bottom: 5px;
+            font-size: 0.8em;
+            margin-bottom: 4px;
             opacity: 0.9;
+            font-weight: 500;
         }
 
         .mythical { color: #ff6b6b; }
@@ -109,11 +111,13 @@
         input[type="number"] {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            padding: 10px;
+            border-radius: 6px;
+            padding: 8px;
             color: #ffffff;
-            font-size: 1em;
+            font-size: 0.9em;
             transition: all 0.3s ease;
+            width: 100%;
+            max-width: 100%;
         }
 
         input[type="number"]:focus {
@@ -124,20 +128,22 @@
 
         .preferences-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
         }
 
         .preference-group {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 10px;
-            padding: 15px;
+            padding: 12px;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .preference-group h4 {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             color: #87ceeb;
+            font-size: 0.95em;
+            text-align: center;
         }
 
         .checkbox-group {
@@ -559,7 +565,7 @@
 
         function getMaterials() {
             const materials = {};
-            const groups = ['chimera', 'factionWars', 'liveArena', 'event', 'clan'];
+            const groups = ['chimera', 'clan', 'liveArena', 'factionWars', 'event'];
             
             groups.forEach(group => {
                 materials[group] = {
@@ -575,7 +581,7 @@
 
         function getPreferences() {
             const preferences = {};
-            const groups = ['chimera', 'factionWars', 'liveArena', 'event', 'clan', 'standard'];
+            const groups = ['chimera', 'clan', 'liveArena', 'factionWars', 'event', 'standard'];
             const rarities = ['mythical', 'legendary', 'epic', 'rare'];
             
             groups.forEach(group => {
@@ -635,7 +641,7 @@
             const strategies = [];
             
             // Generate all possible crafting strategies
-            const groups = ['chimera', 'factionWars', 'liveArena', 'event', 'clan'];
+            const groups = ['chimera', 'clan', 'liveArena', 'factionWars', 'event'];
             
             groups.forEach(group => {
                 const groupMaterials = materials[group];
