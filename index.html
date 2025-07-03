@@ -146,21 +146,39 @@
             text-align: center;
         }
 
-        .checkbox-group {
+        .preference-inputs {
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 8px;
         }
 
-        .checkbox-item {
-            display: flex;
+        .preference-row {
+            display: grid;
+            grid-template-columns: 1fr 40px 8px 35px;
             align-items: center;
             gap: 6px;
         }
 
-        .checkbox-item label {
-            font-size: 0.85em;
-            cursor: pointer;
+        .preference-row label {
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+
+        .preference-row input[type="number"] {
+            padding: 4px 6px;
+            font-size: 0.8em;
+            text-align: center;
+        }
+
+        .preference-row input[readonly] {
+            background: rgba(255, 255, 255, 0.05);
+            opacity: 0.7;
+        }
+
+        .preference-row span {
+            text-align: center;
+            font-size: 0.9em;
+            opacity: 0.7;
         }
 
         input[type="checkbox"] {
@@ -434,136 +452,184 @@
         </div>
 
         <div class="preferences-section">
-            <h2 class="section-title">🎯 What Relics Do You Want?</h2>
+            <h2 class="section-title">🎯 Relic Preferences (Wanted/Total Available)</h2>
             <div class="preferences-grid">
                 <div class="preference-group">
                     <h4>🔥 Chimera Relics</h4>
-                    <div class="checkbox-group">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="want-chimera-mythical">
-                            <label>Mythical Chimera</label>
+                    <div class="preference-inputs">
+                        <div class="preference-row">
+                            <label class="mythical">Mythical</label>
+                            <input type="number" id="want-chimera-mythical" value="0" min="0" max="2" placeholder="0">
+                            <span>/</span>
+                            <input type="number" id="total-chimera-mythical" value="2" min="1">
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="want-chimera-legendary">
-                            <label>Legendary Chimera</label>
+                        <div class="preference-row">
+                            <label class="legendary">Legendary</label>
+                            <input type="number" id="want-chimera-legendary" value="0" min="0" max="2" placeholder="0">
+                            <span>/</span>
+                            <input type="number" id="total-chimera-legendary" value="2" min="1">
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="want-chimera-epic">
-                            <label>Epic Chimera</label>
+                        <div class="preference-row">
+                            <label class="epic">Epic</label>
+                            <input type="number" id="want-chimera-epic" value="0" min="0" max="3" placeholder="0">
+                            <span>/</span>
+                            <input type="number" id="total-chimera-epic" value="3" min="1">
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="want-chimera-rare">
-                            <label>Rare Chimera</label>
+                        <div class="preference-row">
+                            <label class="rare">Rare</label>
+                            <input type="number" id="want-chimera-rare" value="0" min="0" max="4" placeholder="0">
+                            <span>/</span>
+                            <input type="number" id="total-chimera-rare" value="4" min="1">
                         </div>
                     </div>
                 </div>
 
                 <div class="preference-group">
                     <h4>🛡️ Clan Relics</h4>
-                    <div class="checkbox-group">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="want-clan-mythical">
-                            <label>Mythical Clan</label>
+                    <div class="preference-inputs">
+                        <div class="preference-row">
+                            <label class="mythical">Mythical</label>
+                            <input type="number" id="want-clan-mythical" value="0" min="0" max="2" placeholder="0">
+                            <span>/</span>
+                            <input type="number" id="total-clan-mythical" value="2" min="1">
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="want-clan-legendary">
-                            <label>Legendary Clan</label>
+                        <div class="preference-row">
+                            <label class="legendary">Legendary</label>
+                            <input type="number" id="want-clan-legendary" value="0" min="0" max="2" placeholder="0">
+                            <span>/</span>
+                            <input type="number" id="total-clan-legendary" value="2" min="1">
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="want-clan-epic">
-                            <label>Epic Clan</label>
+                        <div class="preference-row">
+                            <label class="epic">Epic</label>
+                            <input type="number" id="want-clan-epic" value="0" min="0" max="2" placeholder="0">
+                            <span>/</span>
+                            <input type="number" id="total-clan-epic" value="2" min="1">
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="want-clan-rare">
-                            <label>Rare Clan</label>
+                        <div class="preference-row">
+                            <label class="rare">Rare</label>
+                            <input type="number" id="want-clan-rare" value="0" min="0" max="2" placeholder="0">
+                            <span>/</span>
+                            <input type="number" id="total-clan-rare" value="2" min="1">
                         </div>
                     </div>
                 </div>
 
                 <div class="preference-group">
                     <h4>🎯 Live Arena Relics</h4>
-                    <div class="checkbox-group">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="want-liveArena-mythical">
-                            <label>Mythical Live Arena</label>
+                    <div class="preference-inputs">
+                        <div class="preference-row">
+                            <label class="mythical">Mythical</label>
+                            <input type="number" id="want-liveArena-mythical" value="0" min="0" max="2" placeholder="0">
+                            <span>/</span>
+                            <input type="number" id="total-liveArena-mythical" value="2" min="1">
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="want-liveArena-legendary">
-                            <label>Legendary Live Arena</label>
+                        <div class="preference-row">
+                            <label class="legendary">Legendary</label>
+                            <input type="number" id="want-liveArena-legendary" value="0" min="0" max="2" placeholder="0">
+                            <span>/</span>
+                            <input type="number" id="total-liveArena-legendary" value="2" min="1">
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="want-liveArena-epic">
-                            <label>Epic Live Arena</label>
+                        <div class="preference-row">
+                            <label class="epic">Epic</label>
+                            <input type="number" id="want-liveArena-epic" value="0" min="0" max="2" placeholder="0">
+                            <span>/</span>
+                            <input type="number" id="total-liveArena-epic" value="2" min="1">
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="want-liveArena-rare">
-                            <label>Rare Live Arena</label>
+                        <div class="preference-row">
+                            <label class="rare">Rare</label>
+                            <input type="number" id="want-liveArena-rare" value="0" min="0" max="2" placeholder="0">
+                            <span>/</span>
+                            <input type="number" id="total-liveArena-rare" value="2" min="1">
                         </div>
                     </div>
                 </div>
 
                 <div class="preference-group">
                     <h4>⚔️ Faction Wars Relics</h4>
-                    <div class="checkbox-group">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="want-factionWars-mythical">
-                            <label>Mythical Faction Wars</label>
+                    <div class="preference-inputs">
+                        <div class="preference-row">
+                            <label class="mythical">Mythical</label>
+                            <input type="number" id="want-factionWars-mythical" value="0" min="0" max="2" placeholder="0">
+                            <span>/</span>
+                            <input type="number" id="total-factionWars-mythical" value="2" min="1">
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="want-factionWars-legendary">
-                            <label>Legendary Faction Wars</label>
+                        <div class="preference-row">
+                            <label class="legendary">Legendary</label>
+                            <input type="number" id="want-factionWars-legendary" value="0" min="0" max="2" placeholder="0">
+                            <span>/</span>
+                            <input type="number" id="total-factionWars-legendary" value="2" min="1">
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="want-factionWars-epic">
-                            <label>Epic Faction Wars</label>
+                        <div class="preference-row">
+                            <label class="epic">Epic</label>
+                            <input type="number" id="want-factionWars-epic" value="0" min="0" max="2" placeholder="0">
+                            <span>/</span>
+                            <input type="number" id="total-factionWars-epic" value="2" min="1">
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="want-factionWars-rare">
-                            <label>Rare Faction Wars</label>
+                        <div class="preference-row">
+                            <label class="rare">Rare</label>
+                            <input type="number" id="want-factionWars-rare" value="0" min="0" max="2" placeholder="0">
+                            <span>/</span>
+                            <input type="number" id="total-factionWars-rare" value="2" min="1">
                         </div>
                     </div>
                 </div>
 
                 <div class="preference-group">
                     <h4>🏆 Event Relics</h4>
-                    <div class="checkbox-group">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="want-event-mythical">
-                            <label>Mythical Event</label>
+                    <div class="preference-inputs">
+                        <div class="preference-row">
+                            <label class="mythical">Mythical</label>
+                            <input type="number" id="want-event-mythical" value="0" min="0" max="2" placeholder="0">
+                            <span>/</span>
+                            <input type="number" id="total-event-mythical" value="2" min="1">
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="want-event-legendary">
-                            <label>Legendary Event</label>
+                        <div class="preference-row">
+                            <label class="legendary">Legendary</label>
+                            <input type="number" id="want-event-legendary" value="0" min="0" max="2" placeholder="0">
+                            <span>/</span>
+                            <input type="number" id="total-event-legendary" value="2" min="1">
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="want-event-epic">
-                            <label>Epic Event</label>
+                        <div class="preference-row">
+                            <label class="epic">Epic</label>
+                            <input type="number" id="want-event-epic" value="0" min="0" max="2" placeholder="0">
+                            <span>/</span>
+                            <input type="number" id="total-event-epic" value="2" min="1">
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="want-event-rare">
-                            <label>Rare Event</label>
+                        <div class="preference-row">
+                            <label class="rare">Rare</label>
+                            <input type="number" id="want-event-rare" value="0" min="0" max="2" placeholder="0">
+                            <span>/</span>
+                            <input type="number" id="total-event-rare" value="2" min="1">
                         </div>
                     </div>
                 </div>
 
                 <div class="preference-group">
                     <h4>⭐ Standard Relics</h4>
-                    <div class="checkbox-group">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="want-standard-mythical">
-                            <label>Mythical Standard</label>
+                    <div class="preference-inputs">
+                        <div class="preference-row">
+                            <label class="mythical">Mythical</label>
+                            <input type="number" id="want-standard-mythical" value="0" min="0" max="2" placeholder="0">
+                            <span>/</span>
+                            <input type="number" id="total-standard-mythical" value="2" min="1">
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="want-standard-legendary">
-                            <label>Legendary Standard</label>
+                        <div class="preference-row">
+                            <label class="legendary">Legendary</label>
+                            <input type="number" id="want-standard-legendary" value="0" min="0" max="2" placeholder="0">
+                            <span>/</span>
+                            <input type="number" id="total-standard-legendary" value="2" min="1">
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="want-standard-epic">
-                            <label>Epic Standard</label>
+                        <div class="preference-row">
+                            <label class="epic">Epic</label>
+                            <input type="number" id="want-standard-epic" value="0" min="0" max="3" placeholder="0">
+                            <span>/</span>
+                            <input type="number" id="total-standard-epic" value="3" min="1">
                         </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="want-standard-rare">
-                            <label>Rare Standard</label>
+                        <div class="preference-row">
+                            <label class="rare">Rare</label>
+                            <input type="number" id="want-standard-rare" value="0" min="0" max="4" placeholder="0">
+                            <span>/</span>
+                            <input type="number" id="total-standard-rare" value="4" min="1">
                         </div>
                     </div>
                 </div>
@@ -631,8 +697,16 @@
             groups.forEach(group => {
                 preferences[group] = {};
                 rarities.forEach(rarity => {
-                    const checkbox = document.getElementById(`want-${group}-${rarity}`);
-                    preferences[group][rarity] = checkbox ? checkbox.checked : false;
+                    const wantedInput = document.getElementById(`want-${group}-${rarity}`);
+                    const totalInput = document.getElementById(`total-${group}-${rarity}`);
+                    const wanted = wantedInput ? parseInt(wantedInput.value) || 0 : 0;
+                    const total = totalInput ? parseInt(totalInput.value) || 1 : 1;
+                    
+                    preferences[group][rarity] = {
+                        wanted: wanted,
+                        total: total,
+                        isWanted: wanted > 0
+                    };
                 });
             });
             
@@ -662,9 +736,11 @@
             
             Object.entries(groupProbs).forEach(([group, groupProb]) => {
                 Object.entries(rarityProbs).forEach(([rarity, rarityProb]) => {
-                    const isWanted = preferences[group] && preferences[group][rarity];
-                    const availableCount = availableRelics[group] && availableRelics[group][rarity] || 0;
-                    const successRate = isWanted && availableCount > 0 ? (1 / availableCount) : 0;
+                    const prefData = preferences[group] && preferences[group][rarity];
+                    const isWanted = prefData && prefData.isWanted;
+                    const wanted = prefData ? prefData.wanted : 0;
+                    const total = prefData ? prefData.total : 1;
+                    const successRate = isWanted && total > 0 ? (wanted / total) : 0;
                     const expectedValue = groupProb * rarityProb * successRate;
                     totalExpectedValue += expectedValue;
                 });
@@ -776,7 +852,7 @@
             
             // Check if any preferences are selected
             const hasPreferences = Object.values(preferences).some(group => 
-                Object.values(group).some(rarity => rarity === true)
+                Object.values(group).some(rarity => rarity.isWanted === true)
             );
             
             if (!hasPreferences) {
@@ -891,18 +967,18 @@
             document.getElementById('clan-rare').value = 100;
             
             // Set some example preferences
-            document.getElementById('want-chimera-mythical').checked = true;
-            document.getElementById('want-chimera-epic').checked = true;
-            document.getElementById('want-chimera-rare').checked = true;
-            document.getElementById('want-factionWars-epic').checked = true;
-            document.getElementById('want-factionWars-rare').checked = true;
-            document.getElementById('want-event-mythical').checked = true;
-            document.getElementById('want-event-legendary').checked = true;
-            document.getElementById('want-clan-legendary').checked = true;
-            document.getElementById('want-liveArena-mythical').checked = true;
-            document.getElementById('want-standard-mythical').checked = true;
-            document.getElementById('want-standard-legendary').checked = true;
-            document.getElementById('want-standard-rare').checked = true;
+            document.getElementById('want-chimera-mythical').value = 1;
+            document.getElementById('want-chimera-epic').value = 2;
+            document.getElementById('want-chimera-rare').value = 1;
+            document.getElementById('want-factionWars-epic').value = 1;
+            document.getElementById('want-factionWars-rare').value = 1;
+            document.getElementById('want-event-mythical').value = 1;
+            document.getElementById('want-event-legendary').value = 1;
+            document.getElementById('want-clan-legendary').value = 1;
+            document.getElementById('want-liveArena-mythical').value = 1;
+            document.getElementById('want-standard-mythical').value = 1;
+            document.getElementById('want-standard-legendary').value = 1;
+            document.getElementById('want-standard-rare').value = 1;
         }
     </script>
     
